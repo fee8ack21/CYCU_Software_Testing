@@ -192,22 +192,19 @@ namespace App.PL
 
 		public static void UseSwaggerService(this WebApplication app)
 		{
-			if (app.Environment.IsDevelopment())
+			var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+			app.UseSwagger();
+			app.UseSwaggerUI(options =>
 			{
-				var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-
-				app.UseSwagger();
-				app.UseSwaggerUI(options =>
+				foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
 				{
-					foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-					{
-						options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-					}
-				});
+					options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+				}
+			});
 
-				// 在開發環境時，將根路徑導至 swagger
-				app.UseRewriter(new RewriteOptions().AddRedirect("^$", "swagger"));
-			}
+			// 將根路徑導至 swagger
+			app.UseRewriter(new RewriteOptions().AddRedirect("^$", "swagger"));
 		}
 		#endregion
 	}
