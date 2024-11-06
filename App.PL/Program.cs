@@ -28,9 +28,6 @@ try
 {
     Log.Information("Starting up.");
 
-    // �]�w ThreadPool ���̤p�u�@ Thread ��
-    // ThreadPool.SetMinThreads(workerThreads: 1024, completionPortThreads: 200);
-
     var builder = WebApplication.CreateBuilder(args);
     var connectionString = builder.Configuration.GetConnectionString("CYCUSoftwareTesting")!;
 
