@@ -9,8 +9,6 @@ using AutoMapper.QueryableExtensions;
 using LinqKit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,29 +21,21 @@ namespace App.BLL.Account
     public class AccountService : IAccountService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly JWTConfig _jwtConfig;
-        private readonly ILogger<AccountService> _logger;
-        private readonly string _backStageUrl;
 
         public AccountService(
             UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager,
             ApplicationDbContext context,
             IMapper mapper,
-            IOptions<JWTConfig> JWTConfig,
-            ILogger<AccountService> logger,
-            IConfiguration configuration
+            IOptions<JWTConfig> JWTConfig
             )
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _context = context;
             _mapper = mapper;
             _jwtConfig = JWTConfig.Value;
-            _logger = logger;
         }
 
         public async Task<GetAccountsResponse> GetAccountsAsync(GetAccountsRequest request)

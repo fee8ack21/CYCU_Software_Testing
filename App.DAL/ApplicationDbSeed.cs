@@ -30,7 +30,7 @@ namespace App.DAL
         {
             new Resource {Name = "受保護的資源一"},
             new Resource {Name = "受保護的資源二"},
-            new Resource {Name = "受保護的資源三Ｆ"}
+            new Resource {Name = "受保護的資源三"}
         };
     }
 }
